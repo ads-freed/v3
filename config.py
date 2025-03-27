@@ -9,4 +9,4 @@ class Config:
     UPLOAD_FOLDER = os.path.join(basedir, 'uploads')
     ALLOWED_EXTENSIONS = {'png', 'jpg', 'jpeg', 'gif', 'pdf', 'zip'}
     LOG_FILE = os.path.join(basedir, 'logs', 'app.log')
-    # Additional settings (e.g. for Flask-Limiter) can be added here.
+    # Additional settings (e.g., for Flask-Limiter) can be added here.
