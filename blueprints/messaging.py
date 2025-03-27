@@ -2,10 +2,10 @@ import os
 from datetime import datetime
 from flask import Blueprint, render_template, redirect, url_for, flash, request, current_app, send_from_directory
 from flask_login import login_required, current_user
-from app import db, socketio
+from werkzeug.utils import secure_filename
 from models import Message, User
 from forms import MessageForm
-from werkzeug.utils import secure_filename
+from extensions import db, socketio
 
 messaging_bp = Blueprint('messaging', __name__, url_prefix='/messages')
 
