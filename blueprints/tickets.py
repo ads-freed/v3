@@ -2,10 +2,10 @@ import os
 from datetime import datetime
 from flask import Blueprint, render_template, redirect, url_for, flash, request, current_app, send_from_directory
 from flask_login import login_required, current_user
-from app import db, socketio
+from werkzeug.utils import secure_filename
 from models import Ticket, TicketAttachment, TicketReply, ReplyAttachment
 from forms import TicketForm, TicketReplyForm
-from werkzeug.utils import secure_filename
+from extensions import db, socketio
 
 tickets_bp = Blueprint('tickets', __name__, url_prefix='/tickets')
 
@@ -31,7 +31,7 @@ def create_ticket():
             attachment = TicketAttachment(filename=unique_filename, ticket_id=ticket.id)
             db.session.add(attachment)
             db.session.commit()
-        # Emit real-time notification
+        # Emit real‑time notification
         socketio.emit('ticket_notification', {'message': 'New ticket created', 'ticket_id': ticket.id})
         flash('Ticket created successfully!')
         return redirect(url_for('dashboard.dashboard'))
