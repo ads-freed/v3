@@ -1,0 +1,46 @@
+{% extends "base.html" %}
+{% block title %}Ticket Details{% endblock %}
+{% block content %}
+<h2>Ticket: {{ ticket.ticket_number }}</h2>
+<p><strong>Title:</strong> {{ ticket.title }}</p>
+<p><strong>Description:</strong> {{ ticket.description }}</p>
+<p><strong>Status:</strong> {{ ticket.status }}</p>
+<p><strong>Priority:</strong> {{ ticket.priority }}</p>
+<h3>Attachments</h3>
+<ul>
+  {% for attachment in ticket.attachments %}
+    <li><a href="{{ url_for('tickets.uploaded_file', filename=attachment.filename) }}">{{ attachment.filename }}</a></li>
+  {% endfor %}
+</ul>
+<hr>
+<h3>Replies</h3>
+{% for reply in ticket.replies %}
+  <div class="card mb-2">
+    <div class="card-body">
+      <p>{{ reply.content }}</p>
+      <p class="text-muted">By User ID: {{ reply.user_id }} at {{ reply.created_at }}</p>
+      {% if reply.attachments %}
+      <p>Attachments:
+        {% for att in reply.attachments %}
+          <a href="{{ url_for('tickets.uploaded_file', filename=att.filename) }}">{{ att.filename }}</a>
+        {% endfor %}
+      </p>
+      {% endif %}
+    </div>
+  </div>
+{% endfor %}
+<hr>
+<h3>Reply</h3>
+<form method="post" enctype="multipart/form-data">
+  {{ form.hidden_tag() }}
+  <div class="form-group">
+    {{ form.content.label(class="form-label") }}
+    {{ form.content(class="form-control", rows=3) }}
+  </div>
+  <div class="form-group">
+    {{ form.attachment.label(class="form-label") }}
+    {{ form.attachment(class="form-control-file") }}
+  </div>
+  <button type="submit" class="btn btn-primary">{{ form.submit.label.text }}</button>
+</form>
+{% endblock %}
