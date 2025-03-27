@@ -43,6 +43,8 @@ app.register_blueprint(tickets_bp)
 app.register_blueprint(messaging_bp)
 app.register_blueprint(admin_bp)
 
+return app
+
 # Import models so that migrations work correctly.
 from models import User, Ticket, TicketReply, Message, Notification
 
@@ -50,5 +52,7 @@ from models import User, Ticket, TicketReply, Message, Notification
 def load_user(id):
     return User.query.get(int(id))
 
+# Only run the app if this file is executed directly.
 if __name__ == '__main__':
+    app = create_app()
     socketio.run(app)
