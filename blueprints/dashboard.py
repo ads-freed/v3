@@ -8,10 +8,10 @@ dashboard_bp = Blueprint('dashboard', __name__, url_prefix='/dashboard')
 @login_required
 def dashboard():
     if current_user.role in ['admin', 'support']:
-        # For Admin/Support, display all tickets and overall statistics.
+        # Admin/Support view: display all tickets with statistics.
         tickets = Ticket.query.all()
         return render_template('dashboard_admin.html', tickets=tickets)
     else:
-        # For customers, show only tickets created by the current user.
+        # Customer view: only show tickets created by the current user.
         tickets = Ticket.query.filter_by(user_id=current_user.id).all()
         return render_template('dashboard_customer.html', tickets=tickets)
